@@ -31,10 +31,10 @@ if (!petStory || petStory.trim() === '') {
   story = petStory;
 }
 
-const API_KEYS = {
-  // OPENROUTER: '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'
-  OPENROUTER : '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'
-};
+// const API_KEYS = {
+//   // OPENROUTER: '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'
+//   OPENROUTER : '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'
+// };
  
 let memory = JSON.parse(localStorage.getItem('ziziMemory')) || {
   name:username,
@@ -188,11 +188,10 @@ async function handleSend() {
 }
 async function getEmotionAnalysis(text) {
   try {
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
+    const response = await fetch("/api/chat", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${API_KEYS.OPENROUTER}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         model: 'openchat/openchat-7b',
@@ -222,11 +221,10 @@ async function getEmotionAnalysis(text) {
 }
 
 async function getAIResponse(input) {
-  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
+  const response = await fetch("/api/chat", {
+    method: "POST",
     headers: {
-      'Authorization': `Bearer ${API_KEYS.OPENROUTER}`,
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       model: 'openchat/openchat-7b',
@@ -265,11 +263,10 @@ function extractJSON(text) {
 
 async function updateLongTermMemory(text) {
   try {
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
+    const response = await fetch("/api/chat", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${API_KEYS.OPENROUTER}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         model: 'openchat/openchat-7b',
