@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome to Amotrvie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, lavender, thistle);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .form-container {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 25px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+      width: 380px;
+      text-align: center;
+      animation: fadeIn 2s ease;
+      border: 3px solid #dda0dd;
+    }
+
+    h1 {
+      margin-bottom: 1.5rem;
+      color: #6a0dad;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.8rem;
+      animation: pulse 2s infinite;
+    }
+
+    label, select, input, textarea {
+      display: block;
+      width: 100%;
+      margin: 0.8rem 0;
+      font-size: 1rem;
+    }
+
+    input, select, textarea {
+      padding: 0.6rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #8a2be2;
+      box-shadow: 0 0 8px rgba(138, 43, 226, 0.4);
+    }
+
+    button {
+      background-color: #a271f8;
+      color: white;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 1.2rem;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 6px 18px rgba(138, 43, 226, 0.4);
+    }
+
+    button:hover {
+      background-color: #7a1fcf;
+      transform: translateY(-2px);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container" id="formContainer">
+    <h1 id="greeting">Welcome to Amotrvie</h1>
+    <form id="form">
+      <label for="userType">Are you a first-time user or a returning user?</label>
+      <select id="userType" name="userType" required>
+        <option value="firstTime">First-Time User</option>
+        <option value="returning">Returning User</option>
+      </select>
+
+      <div id="usernameSection" style="display: none;">
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" name="username" required placeholder="Choose a name for yourself" />
+      </div>
+
+      <div id="storySection" style="display: none;">
+        <label for="petStory">Do you want to write your own story for Zizi the deer?</label>
+        <select id="storyOption" onchange="toggleStoryInput()">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+
+        <div id="storyTextDiv" style="display: none;">
+          <label for="petStoryInput">Write your story for Zizi:</label>
+          <textarea id="petStoryInput" name="petStory" rows="4" placeholder="Write a magical story..."></textarea>
+        </div>
+      </div>
+
+      <button type="submit" id="submitBtn">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    // Show the appropriate fields based on the user type selection
+    document.getElementById('userType').addEventListener('change', function() {
+      const userType = document.getElementById('userType').value;
+      if (userType === 'firstTime') {
+        document.getElementById('usernameSection').style.display = 'block';
+        document.getElementById('storySection').style.display = 'block';
+      } else {
+        document.getElementById('usernameSection').style.display = 'none';
+        document.getElementById('storySection').style.display = 'none';
+        // Automatically take returning user to index.html
+        window.location.href = 'index.html';
+      }
+    });
+
+    document.getElementById('form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const userType = document.getElementById('userType').value;
+
+      if (userType === 'firstTime') {
+        const usernameField = document.getElementById('username');
+        
+        // Check if username is required and is visible before validating it
+        if (!usernameField.value.trim()) {
+          alert("Username is required!");
+          usernameField.focus();
+          return;
+        }
+
+        const username = usernameField.value;
+        const petStory = document.getElementById('petStoryInput') ? document.getElementById('petStoryInput').value : '';
+
+        // Store username and petStory in localStorage for first-time users
+        localStorage.setItem('username', username);
+        if (petStory) {
+          localStorage.setItem('petStory', petStory);
+        }
+        else{
+          localStorage.setItem('petStory','');
+        }
+
+        // Redirect to story.html for first-time users
+        window.location.href = 'story.html';
+      }
+    });
+
+    function toggleStoryInput() {
+      const storyOption = document.getElementById('storyOption').value;
+      const storyTextDiv = document.getElementById('storyTextDiv');
+      if (storyOption === 'yes') {
+        storyTextDiv.style.display = 'block';
+      } else {
+        storyTextDiv.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

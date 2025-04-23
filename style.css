@@ -1,0 +1,222 @@
+/* Reset & base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+  height: 100%;
+  background: linear-gradient(to bottom, #c8e6ff, #e5d3ff);
+  display: flex;
+  flex-direction: column;
+  color: #222;
+  padding:10px;
+}
+
+/* 3D container with background */
+/* #three-container {
+  position: relative;
+  flex: 1;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #ffffff;
+} */
+#three-container {
+  position: relative;
+  width: 800px; /* You can adjust this size */
+  height: 1000px;
+  margin: 50px auto; /* center horizontally with some top margin */
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+#three-container::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('your-background.jpg') center center / cover no-repeat;
+  z-index: -2;
+  filter: brightness(0.8) saturate(1.2);
+}
+
+canvas {
+  z-index: 1;
+}
+
+/* Chat container */
+#chat-container {
+  flex: 1;
+  min-height: 30vh;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  border-top: 2px solid #ddd;
+
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+}
+
+/* Chat box */
+#chat-box {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #999 transparent;
+}
+
+/* Scrollbar for Webkit */
+#chat-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+#chat-box::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 4px;
+}
+
+/* Chat bubbles */
+.message {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* User bubble: bright gradient */
+.message.user {
+  background: linear-gradient(135deg, #6a85f1, #a974f8);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* AI bubble: soft glassy look */
+.message.ai {
+  background: rgba(255, 255, 255, 0.85);
+  color: #333;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Input group */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background-color: #f1f3f9;
+  color: #333;
+  font-size: 1rem;
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.input-group button {
+  padding: 12px 18px;
+  background: linear-gradient(to right, #6a85f1, #a974f8);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.input-group button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(to right, #5c79ea, #946ff2);
+}
+
+#loading-indicator {
+  text-align: center;
+  margin-top: 10px;
+  font-style: italic;
+  color: #666;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .message {
+    max-width: 85%;
+  }
+
+  .input-group input, .input-group button {
+    font-size: 0.9rem;
+  }
+
+  #chat-container {
+    border-radius: 0;
+  }
+}
+
+.speech-bubble {
+  position: absolute;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #e0c3fc, #8ec5fc); /* Lavender gradient */
+  border: 2px solid #b288dd;
+  border-radius: 20px 20px 20px 5px; /* rounded bubble tail */
+  font-family: 'Comic Neue', 'Poppins', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #4a3f65;
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 220px;
+  max-height: 150px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  pointer-events: auto;
+  transform: translate(-50%, -100%);
+  box-shadow: 0 8px 20px rgba(166, 129, 203, 0.3);
+  z-index: 10;
+}
+
+/* Optional scroll bar style */
+.speech-bubble::-webkit-scrollbar {
+  width: 6px;
+}
+.speech-bubble::-webkit-scrollbar-thumb {
+  background-color: #caa9f4;
+  border-radius: 10px;
+}
+
+
