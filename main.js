@@ -64,7 +64,7 @@ function init() {
   const loader = new GLTFLoader();
 
   loader.load(
-    'fawn_a3.glb',
+    'assets/fawn_a3.glb',
     (gltf) => {
       const model = gltf.scene;
       const modelWrapper = new THREE.Group();
