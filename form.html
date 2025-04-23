@@ -22,7 +22,7 @@
       padding: 2.5rem;
       border-radius: 25px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-      width: 380px;
+      width: 400px;
       text-align: center;
       animation: fadeIn 2s ease;
       border: 3px solid #dda0dd;
@@ -43,7 +43,7 @@
       font-size: 1rem;
     }
 
-    input, select, textarea {
+    input[type="text"], textarea, select {
       padding: 0.6rem;
       border-radius: 10px;
       border: 1px solid #ccc;
@@ -51,7 +51,7 @@
       transition: all 0.3s ease;
     }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus, textarea:focus {
       outline: none;
       border-color: #8a2be2;
       box-shadow: 0 0 8px rgba(138, 43, 226, 0.4);
@@ -84,17 +84,26 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    .radio-group {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 1rem;
+    }
+
+    .radio-group label {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <div class="form-container" id="formContainer">
     <h1 id="greeting">Welcome to Amotrvie</h1>
     <form id="form">
-      <label for="userType">Are you a first-time user or a returning user?</label>
-      <select id="userType" name="userType" required>
-        <option value="firstTime">First-Time User</option>
-        <option value="returning">Returning User</option>
-      </select>
+      <div class="radio-group" id="userTypeRadios">
+        <label><input type="radio" name="userType" value="firstTime" onclick="handleUserType(this)"> First-Time User</label>
+        <label><input type="radio" name="userType" value="returning" onclick="handleUserType(this)"> Returning User</label>
+      </div>
 
       <div id="usernameSection" style="display: none;">
         <label for="username">Enter your username:</label>
@@ -114,56 +123,30 @@
         </div>
       </div>
 
-      <button type="submit" id="submitBtn">Submit</button>
+      <button type="submit" id="submitBtn">Enter Amotrvie</button>
     </form>
   </div>
 
   <script>
-    // Show the appropriate fields based on the user type selection
-    document.getElementById('userType').addEventListener('change', function() {
-      const userType = document.getElementById('userType').value;
+    window.onload = function () {
+      // Reset everything on load
+      document.getElementById('form').reset();
+      document.getElementById('usernameSection').style.display = 'none';
+      document.getElementById('storySection').style.display = 'none';
+      document.getElementById('storyTextDiv').style.display = 'none';
+    };
+
+    function handleUserType(radio) {
+      const userType = radio.value;
+      const radios = document.getElementById('userTypeRadios');
       if (userType === 'firstTime') {
         document.getElementById('usernameSection').style.display = 'block';
         document.getElementById('storySection').style.display = 'block';
-      } else {
-        document.getElementById('usernameSection').style.display = 'none';
-        document.getElementById('storySection').style.display = 'none';
-        // Automatically take returning user to index.html
+        radios.style.display = 'none'; // Hide radio buttons
+      } else if (userType === 'returning') {
         window.location.href = 'index.html';
       }
-    });
-
-    document.getElementById('form').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      const userType = document.getElementById('userType').value;
-
-      if (userType === 'firstTime') {
-        const usernameField = document.getElementById('username');
-        
-        // Check if username is required and is visible before validating it
-        if (!usernameField.value.trim()) {
-          alert("Username is required!");
-          usernameField.focus();
-          return;
-        }
-
-        const username = usernameField.value;
-        const petStory = document.getElementById('petStoryInput') ? document.getElementById('petStoryInput').value : '';
-
-        // Store username and petStory in localStorage for first-time users
-        localStorage.setItem('username', username);
-        if (petStory) {
-          localStorage.setItem('petStory', petStory);
-        }
-        else{
-          localStorage.setItem('petStory','');
-        }
-
-        // Redirect to story.html for first-time users
-        window.location.href = 'story.html';
-      }
-    });
+    }
 
     function toggleStoryInput() {
       const storyOption = document.getElementById('storyOption').value;
@@ -174,6 +157,22 @@
         storyTextDiv.style.display = 'none';
       }
     }
+
+    document.getElementById('form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const usernameField = document.getElementById('username');
+      if (!usernameField.value.trim()) {
+        alert("Username is required!");
+        usernameField.focus();
+        return;
+      }
+
+      const username = usernameField.value;
+      const petStory = document.getElementById('petStoryInput')?.value || '';
+      localStorage.setItem('username', username);
+      localStorage.setItem('petStory', petStory);
+      window.location.href = 'story.html';
+    });
   </script>
 </body>
 </html>
