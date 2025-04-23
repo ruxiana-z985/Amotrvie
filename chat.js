@@ -33,7 +33,7 @@ if (!petStory || petStory.trim() === '') {
 
 const API_KEYS = {
   // OPENROUTER: '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'
-  OPENROUTER : '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'
+  OPENROUTER :  process.env.NEXT_PUBLIC_OPENROUTER
 };
  
 let memory = JSON.parse(localStorage.getItem('ziziMemory')) || {
